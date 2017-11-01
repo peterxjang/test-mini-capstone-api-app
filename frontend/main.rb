@@ -1,6 +1,8 @@
 require 'unirest'
 require 'pp'
 
+jwt = ""
+
 while true
   system "clear"
   puts "CANDY STORE APP - Choose an option:"
@@ -13,6 +15,10 @@ while true
   puts "[3] Create a new product"
   puts "[4] Update a product"
   puts "[5] Destroy a product"
+  puts
+  puts "[6] Signup (create a user)"
+  puts "[7] Login (create a JSON web token)"
+  puts "[8] Logout (erase the JSON web token)"
   puts
   puts "[0] Exit"
   option = gets.chomp
@@ -107,6 +113,39 @@ while true
     id = gets.chomp
     response = Unirest.delete("http://localhost:3000/api/v1/products/#{id}")
     puts response.body["status"]
+    puts "Press enter to continue"
+    gets.chomp
+  elsif option == "6"
+    puts "Register"
+    params = {}
+    print "Name: "
+    params[:name] = gets.chomp
+    print "Email: "
+    params[:email] = gets.chomp
+    print "Password: "
+    params[:password] = gets.chomp
+    print "Password confirmation: "
+    params[:password_confirmation] = gets.chomp
+    response = Unirest.post("http://localhost:3000/api/v1/users", parameters: params)
+    pp response.body
+    puts "Press enter to continue"
+    gets.chomp
+  elsif option == "7"
+    puts "Login"
+    params = {}
+    print "Email: "
+    params[:email] = gets.chomp
+    print "Password: "
+    params[:password] = gets.chomp
+    response = Unirest.post("http://localhost:3000/user_token", parameters: {auth: {email: params[:email], password: params[:password]}}).body
+    pp response
+    jwt = response["jwt"]
+    Unirest.default_header("Authorization", "Bearer #{jwt}")
+    puts "Press enter to continue"
+    gets.chomp
+  elsif option == "8"
+    jwt = ""
+    Unirest.clear_default_headers()
     puts "Press enter to continue"
     gets.chomp
   elsif option == "0"
