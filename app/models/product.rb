@@ -10,4 +10,17 @@ class Product < ApplicationRecord
   def discounted
     price.to_f < 2
   end
+
+  def as_json
+    {
+      id: id,
+      name: name,
+      image: image,
+      description: description,
+      price: price,
+      tax: tax,
+      total: total,
+      discounted: discounted
+    }
+  end
 end

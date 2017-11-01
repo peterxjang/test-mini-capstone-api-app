@@ -1,12 +1,12 @@
 class Api::V1::ProductsController < ApplicationController
   def index
     products = Product.all
-    render json: products.as_json(methods: [:tax, :total, :discounted])
+    render json: products.as_json
   end
 
   def show
     product = Product.find_by(id: params[:id])
-    render json: product.as_json(methods: [:tax, :total, :discounted])
+    render json: product.as_json
   end
 
   def create
@@ -17,7 +17,7 @@ class Api::V1::ProductsController < ApplicationController
       description: params[:description]
     )
     product.save
-    render json: product.as_json(methods: [:tax, :total, :discounted])
+    render json: product.as_json
   end
 
   def update
@@ -27,7 +27,7 @@ class Api::V1::ProductsController < ApplicationController
     product.image = params[:image] if params[:image].present?
     product.description = params[:description] if params[:description].present?
     product.save
-    render json: product.as_json(methods: [:tax, :total, :discounted])
+    render json: product.as_json
   end
 
   def destroy
