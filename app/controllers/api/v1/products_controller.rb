@@ -1,11 +1,26 @@
 class Api::V1::ProductsController < ApplicationController
   def index
     products = Product.all
+    if params[:sort_attribute] && params[:sort_order]
+      products = products.order(params[:sort_attribute] => params[:sort_order])
+    end
+    if params[:discount]
+      # products = products.where("price < ?", 2)    # works but isn't DRY
+      # products = products.where(discounted: true)  # does not work since discounted is a model method, not part of the database
+      products = products.select { |product| product.discounted }
+    end
+    if params[:search]
+      products = products.where("name ILIKE ?", "%#{params[:search]}%")
+    end
     render json: products.as_json
   end
 
   def show
-    product = Product.find_by(id: params[:id])
+    if params[:id] == "random"
+      product = Product.all.sample
+    else
+      product = Product.find_by(id: params[:id])
+    end
     render json: product.as_json
   end
 
