@@ -28,11 +28,14 @@ class Api::V1::ProductsController < ApplicationController
     product = Product.new(
       name: params[:name],
       price: params[:price],
-      image: params[:image],
-      description: params[:description]
+      description: params[:description],
+      supplier_id: params[:supplier_id]
     )
-    product.save
-    render json: product.as_json
+    if product.save
+      render json: product.as_json
+    else
+      render json: {errors: product.errors.full_messages}, status: :bad_request
+    end
   end
 
   def update

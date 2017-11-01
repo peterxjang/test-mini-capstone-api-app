@@ -64,12 +64,11 @@ while true
     gets.chomp
   elsif option == "3"
     params = {}
+    params[:supplier_id] = 1 # hard coded, will change this in a bit
     print "Name: "
     params[:name] = gets.chomp
     print "Price: "
     params[:price] = gets.chomp
-    print "Image: "
-    params[:image] = gets.chomp
     print "Description: "
     params[:description] = gets.chomp
     response = Unirest.post("http://localhost:3000/api/v1/products", parameters: params)
