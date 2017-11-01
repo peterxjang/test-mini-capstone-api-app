@@ -1,7 +1,9 @@
 class Product < ApplicationRecord
   belongs_to :supplier
   has_many :images
-  
+
+  validates :name, presence: true
+
   def tax
     price.to_f * 0.09
   end
