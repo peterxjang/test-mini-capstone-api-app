@@ -1,12 +1,7 @@
 class Product < ApplicationRecord
-  def supplier
-    Supplier.find_by(id: supplier_id)
-  end
-
-  def images
-    Image.where(product_id: id)
-  end
-
+  belongs_to :supplier
+  has_many :images
+  
   def tax
     price.to_f * 0.09
   end
