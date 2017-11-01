@@ -1,4 +1,8 @@
 class Product < ApplicationRecord
+  def supplier
+    Supplier.find_by(id: supplier_id)
+  end
+
   def tax
     price.to_f * 0.09
   end
@@ -20,7 +24,8 @@ class Product < ApplicationRecord
       price: price,
       tax: tax,
       total: total,
-      discounted: discounted
+      discounted: discounted,
+      supplier: supplier.as_json
     }
   end
 end
