@@ -64,7 +64,14 @@ while true
     gets.chomp
   elsif option == "3"
     params = {}
-    params[:supplier_id] = 1 # hard coded, will change this in a bit
+    response = Unirest.get("http://localhost:3000/api/v1/suppliers")
+    suppliers = response.body
+    puts "Select a supplier:"
+    suppliers.each do |supplier|
+      puts "[#{supplier["id"]}] #{supplier["name"]}"
+    end
+    selected_supplier_id = gets.chomp
+    params[:supplier_id] = selected_supplier_id
     print "Name: "
     params[:name] = gets.chomp
     print "Price: "
