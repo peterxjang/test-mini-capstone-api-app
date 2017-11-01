@@ -15,7 +15,7 @@ while true
   system "clear"
   if option == "1"
     puts "Here are all the products:"
-    response = Unirest.get("http://localhost:3000/products")
+    response = Unirest.get("http://localhost:3000/api/v1/products")
     products = response.body
     pp products
     puts "Press enter to continue"
@@ -23,7 +23,7 @@ while true
   elsif option == "2"
     puts "Enter the id of a product to show:"
     id = gets.chomp
-    response = Unirest.get("http://localhost:3000/products/#{id}")
+    response = Unirest.get("http://localhost:3000/api/v1/products/#{id}")
     product = response.body
     pp product
     puts "Press enter to continue"
@@ -38,7 +38,7 @@ while true
     params[:image] = gets.chomp
     print "Description: "
     params[:description] = gets.chomp
-    response = Unirest.post("http://localhost:3000/products", parameters: params)
+    response = Unirest.post("http://localhost:3000/api/v1/products", parameters: params)
     created_product = response.body
     pp created_product
     puts "Press enter to continue"
@@ -46,7 +46,7 @@ while true
   elsif option == "4"
     puts "Enter the id of a product to edit:"
     id = gets.chomp
-    response = Unirest.get("http://localhost:3000/products/#{id}")
+    response = Unirest.get("http://localhost:3000/api/v1/products/#{id}")
     product = response.body
     params = {}
     print "Name (#{product["name"]}): "
@@ -57,7 +57,7 @@ while true
     params[:image] = gets.chomp
     print "Description (#{product["description"]}): "
     params[:description] = gets.chomp
-    response = Unirest.patch("http://localhost:3000/products/#{id}", parameters: params)
+    response = Unirest.patch("http://localhost:3000/api/v1/products/#{id}", parameters: params)
     updated_product = response.body
     pp updated_product
     puts "Press enter to continue"
@@ -65,7 +65,7 @@ while true
   elsif option == "5"
     puts "Enter the id of a product to destroy:"
     id = gets.chomp
-    response = Unirest.delete("http://localhost:3000/products/#{id}")
+    response = Unirest.delete("http://localhost:3000/api/v1/products/#{id}")
     puts response.body["status"]
     puts "Press enter to continue"
     gets.chomp
