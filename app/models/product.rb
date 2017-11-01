@@ -3,6 +3,10 @@ class Product < ApplicationRecord
     Supplier.find_by(id: supplier_id)
   end
 
+  def images
+    Image.where(product_id: id)
+  end
+
   def tax
     price.to_f * 0.09
   end
@@ -19,13 +23,13 @@ class Product < ApplicationRecord
     {
       id: id,
       name: name,
-      image: image,
       description: description,
       price: price,
       tax: tax,
       total: total,
       discounted: discounted,
-      supplier: supplier.as_json
+      supplier: supplier.as_json,
+      images: images.as_json
     }
   end
 end
