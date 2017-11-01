@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
-  get "/all_products_url" => "products#all_products_method"
-  get "/one_product_url" => "products#one_product_method" 
+  get "/products" => "products#index"
+  get "/products/:id" => "products#show"
+  post "/products" => "products#create"
+  patch "/products/:id" => "products#update"
+  delete "/products/:id" => "products#destroy"
 end
