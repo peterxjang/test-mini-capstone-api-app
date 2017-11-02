@@ -11,6 +11,10 @@ Rails.application.routes.draw do
 
       get "/suppliers" => "suppliers#index"
 
+      get "/orders" => "orders#index"
+      get "/orders/:id" => "orders#show"
+      post "/orders" => "orders#create"
+
       post "/users" => "users#create"
     end
   end

@@ -16,9 +16,12 @@ while true
   puts "[4] Update a product"
   puts "[5] Destroy a product"
   puts
-  puts "[6] Signup (create a user)"
-  puts "[7] Login (create a JSON web token)"
-  puts "[8] Logout (erase the JSON web token)"
+  puts "[6] Show your orders"
+  puts "[7] Show one order"
+  puts
+  puts "[8] Signup (create a user)"
+  puts "[9] Login (create a JSON web token)"
+  puts "[10] Logout (erase the JSON web token)"
   puts
   puts "[0] Exit"
   option = gets.chomp
@@ -66,8 +69,20 @@ while true
     response = Unirest.get("http://localhost:3000/api/v1/products/#{id}")
     product = response.body
     pp product
-    puts "Press enter to continue"
-    gets.chomp
+    puts "Press enter to continue or type 'o' to order"
+    if gets.chomp == "o"
+      print "Enter a quantity to order: "
+      quantity = gets.chomp
+      params = {
+        quantity: quantity,
+        product_id: id
+      }
+      response = Unirest.post("http://localhost:3000/api/v1/orders", parameters: params)
+      order = response.body
+      pp order
+      puts "Press enter to continue"
+      gets.chomp
+    end
   elsif option == "3"
     params = {}
     response = Unirest.get("http://localhost:3000/api/v1/suppliers")
@@ -116,6 +131,21 @@ while true
     puts "Press enter to continue"
     gets.chomp
   elsif option == "6"
+    puts "Here are all the orders:"
+    response = Unirest.get("http://localhost:3000/api/v1/orders")
+    orders = response.body
+    pp orders
+    puts "Press enter to continue"
+    gets.chomp
+  elsif option == "7"
+    puts "Enter the id of an order to show:"
+    id = gets.chomp
+    response = Unirest.get("http://localhost:3000/api/v1/orders/#{id}")
+    order = response.body
+    pp order
+    puts "Press enter to continue"
+    gets.chomp
+  elsif option == "8"
     puts "Register"
     params = {}
     print "Name: "
@@ -130,7 +160,7 @@ while true
     pp response.body
     puts "Press enter to continue"
     gets.chomp
-  elsif option == "7"
+  elsif option == "9"
     puts "Login"
     params = {}
     print "Email: "
@@ -143,7 +173,7 @@ while true
     Unirest.default_header("Authorization", "Bearer #{jwt}")
     puts "Press enter to continue"
     gets.chomp
-  elsif option == "8"
+  elsif option == "10"
     jwt = ""
     Unirest.clear_default_headers()
     puts "Press enter to continue"
