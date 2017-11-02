@@ -17,6 +17,8 @@ while true
   puts "[4] Update a product"
   puts "[5] Destroy a product"
   puts
+  puts "[cart] Show your shopping cart"
+  puts
   puts "[6] Show your orders"
   puts "[7] Show one order"
   puts
@@ -83,17 +85,17 @@ while true
     response = Unirest.get("http://localhost:3000/api/v1/products/#{id}")
     product = response.body
     pp product
-    puts "Press enter to continue or type 'o' to order"
-    if gets.chomp == "o"
-      print "Enter a quantity to order: "
+    puts "Press enter to continue or type 'c' to add to cart"
+    if gets.chomp == "c"
+      print "Enter a quantity to add to cart: "
       quantity = gets.chomp
       params = {
         quantity: quantity,
         product_id: id
       }
-      response = Unirest.post("http://localhost:3000/api/v1/orders", parameters: params)
-      order = response.body
-      pp order
+      response = Unirest.post("http://localhost:3000/api/v1/carted_products", parameters: params)
+      carted_product = response.body
+      pp carted_product
       puts "Press enter to continue"
       gets.chomp
     end
@@ -142,6 +144,13 @@ while true
     id = gets.chomp
     response = Unirest.delete("http://localhost:3000/api/v1/products/#{id}")
     puts response.body["status"]
+    puts "Press enter to continue"
+    gets.chomp
+  elsif option == "cart"
+    puts "Here are all the items in the shopping cart:"
+    response = Unirest.get("http://localhost:3000/api/v1/carted_products")
+    carted_products = response.body
+    pp carted_products
     puts "Press enter to continue"
     gets.chomp
   elsif option == "6"
