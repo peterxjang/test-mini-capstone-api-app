@@ -14,6 +14,9 @@ class Api::V1::ProductsController < ApplicationController
     if params[:search]
       products = products.where("name ILIKE ?", "%#{params[:search]}%")
     end
+    if params[:category_id]
+      products = Category.find_by(id: params[:category_id]).products
+    end
     render json: products.as_json
   end
 

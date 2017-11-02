@@ -11,6 +11,7 @@ while true
   puts "  [1.2] Show all products sorted by price descending"
   puts "  [1.3] Show only discounted products"
   puts "  [1.4] Search products by name"
+  puts "  [1.5] Show products by category"
   puts "[2] Show one product"
   puts "[3] Create a new product"
   puts "[4] Update a product"
@@ -59,6 +60,19 @@ while true
     search_terms = gets.chomp
     puts "Here are all the products:"
     response = Unirest.get("http://localhost:3000/api/v1/products?search=#{search_terms}")
+    products = response.body
+    pp products
+    puts "Press enter to continue"
+    gets.chomp
+  elsif option == "1.5"
+    puts "Choose a category:"
+    response = Unirest.get("http://localhost:3000/api/v1/categories")
+    categories = response.body
+    categories.each do |category|
+      puts "[#{category['id']}] #{category['name']}"
+    end
+    category_id = gets.chomp
+    response = Unirest.get("http://localhost:3000/api/v1/products?category_id=#{category_id}")
     products = response.body
     pp products
     puts "Press enter to continue"
