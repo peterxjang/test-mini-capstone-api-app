@@ -2,6 +2,8 @@ class Product < ApplicationRecord
   belongs_to :supplier
   has_many :images
   has_many :orders
+  has_many :category_products
+  has_many :categories, through: :category_products
 
   validates :name, presence: true
 
@@ -27,7 +29,8 @@ class Product < ApplicationRecord
       total: total,
       discounted: discounted,
       supplier: supplier.as_json,
-      images: images.as_json
+      images: images.as_json,
+      categories: categories.as_json
     }
   end
 end

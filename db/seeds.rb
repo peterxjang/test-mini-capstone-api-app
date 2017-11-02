@@ -18,3 +18,10 @@ Image.create(product_id: 1, url: "https://cdn3.volusion.com/crwxq.xtpya/v/vspfil
 Image.create(product_id: 2, url: "https://images-na.ssl-images-amazon.com/images/I/71%2Br1gAwsZL._SX466_.jpg")
 Image.create(product_id: 3, url: "http://lchaimfoods.com/wp-content/uploads/2016/08/oreos.jpg")
 Image.create(product_id: 3, url: "http://images.mentalfloss.com/sites/default/files/oreosprimary.png")
+
+Category.create(name: "Chocolate")
+Category.create(name: "Chewy")
+
+CategoryProduct.create(category_id: 1, product_id: 2)
+CategoryProduct.create(category_id: 2, product_id: 1)
+CategoryProduct.create(category_id: 2, product_id: 2)
