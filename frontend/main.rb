@@ -146,6 +146,7 @@ while true
     puts "Press enter to continue"
     gets.chomp
   elsif option == "8"
+    Unirest.clear_default_headers()
     puts "Register"
     params = {}
     print "Name: "
