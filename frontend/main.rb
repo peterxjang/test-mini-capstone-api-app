@@ -151,11 +151,22 @@ while true
     response = Unirest.get("http://localhost:3000/api/v1/carted_products")
     carted_products = response.body
     pp carted_products
-    puts "Press enter to continue, or press 'o' to place the order"
-    if gets.chomp == 'o'
+    puts "Press enter to continue, or press 'o' to place the order, or press 'r' to remove a product"
+    sub_option = gets.chomp
+    if sub_option == 'o'
       response = Unirest.post("http://localhost:3000/api/v1/orders")
       order = response.body
       pp order
+      puts "Press enter to continue"
+      gets.chomp
+    elsif sub_option == 'r'
+      puts "Enter the carted product id to remove:"
+      carted_products.each do |carted_product|
+        puts "[#{carted_product['id']}] #{carted_product['product']['name']}"
+      end
+      id = gets.chomp
+      response = Unirest.delete("http://localhost:3000/api/v1/carted_products/#{id}")
+      pp response.body
       puts "Press enter to continue"
       gets.chomp
     end
