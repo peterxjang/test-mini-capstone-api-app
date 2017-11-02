@@ -6,8 +6,7 @@ class Order < ApplicationRecord
   def as_json
     {
       id: id,
-      product: product.as_json,
-      quantity: quantity,
+      carted_products: carted_products.as_json,
       subtotal: subtotal,
       tax: tax,
       total: total

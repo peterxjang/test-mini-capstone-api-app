@@ -151,8 +151,14 @@ while true
     response = Unirest.get("http://localhost:3000/api/v1/carted_products")
     carted_products = response.body
     pp carted_products
-    puts "Press enter to continue"
-    gets.chomp
+    puts "Press enter to continue, or press 'o' to place the order"
+    if gets.chomp == 'o'
+      response = Unirest.post("http://localhost:3000/api/v1/orders")
+      order = response.body
+      pp order
+      puts "Press enter to continue"
+      gets.chomp
+    end
   elsif option == "6"
     puts "Here are all the orders:"
     response = Unirest.get("http://localhost:3000/api/v1/orders")
