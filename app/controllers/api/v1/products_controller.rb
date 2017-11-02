@@ -1,4 +1,6 @@
 class Api::V1::ProductsController < ApplicationController
+  before_action :authenticate_admin, except: [:index, :show]
+
   def index
     products = Product.all
     if params[:sort_attribute] && params[:sort_order]
